@@ -1,0 +1,579 @@
+<html>
+
+<head> 
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<script src="js/jquery-3.2.0.slim.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="starter-template.css" rel="stylesheet">
+
+<title> XCombat File Format </title>
+</head>
+
+<body bgcolor="#aaddff">
+
+    <nav class="navbar navbar-fixed-top navbar-dark navbar-inverse">
+      <a class="navbar-brand" href="#">ACEXCombat</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+<p> 
+    
+<center>
+	<table border=1 padding=0>
+	<tr>
+	<td> <center> <img src="images/hornets.gif"> </center> </td>
+	</tr>
+	</table>
+    <h1> XCombat File Format </h1>  
+    <h3> Version 1.0 </h3> 
+</center>
+
+<body bgcolor="#aaddff">
+
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#000000"> <tr> <td>
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#FFFFFF"> <tr> <td>
+		<A NAME=HEADING3-51> </A>
+		<H3>Pacaus/SWARMM Run File 			</H3> <BR>
+
+		The pac.his run file output by the PACAUS program
+		has many different formats. The format version documented 
+		here is the current most extensive version of a pac.his
+		file - VERSION_D. <BR>
+		A pac.his file consists of a header, a waypoints section  
+		and a series of aircraft
+		lines. For example if there are 6 aircraft in a run that
+		lasts for 20 seconds, we would have 200 groups of 6 aircraft
+		lines. The time is recorded in intervals of 0.1 seconds. Therefore
+		for each 0.1 second interval there will be 6 aircraft lines - one
+		for each aircraft.
+		<P>
+		<B>Header</B>
+		<BR>
+		The header is in the following format:
+<PRE>
+version
+comment
+comment
+models.num_of_types models.types[0]...models.types[models.num_of_types]
+numAircraft numSides
+</PRE>
+
+		<table class="table table-striped">
+
+		<TR>
+                <TD><B>Parameter</B></TD>
+                <TD><B>Type</B></TD>
+                <TD><B>Description</B></TD>
+                </TR>
+
+		<TR>
+		<TD>version</TD>
+		<TD>string</TD>
+		<TD>VersionA|B|C|D|E</TD>
+		</TR>
+
+		<TR>
+                <TD>comment</TD>
+                <TD>string</TD>
+                <TD>Information about the data file</TD>
+                </TR>
+
+		<TR>
+		<TD>models.num_of_types</TD>
+		<TD>int</TD>
+		<TD>Number of 3D models to load</TD>
+		</TR>
+
+		<TR>
+		<TD>models.types</TD>
+		<TD>int array</TD>
+		<TD>3D model id number</TD>
+		</TR> 
+	
+		</TABLE>
+
+		<P>
+		<B>Models</B>
+		The following 3D model id numbers are available:
+		<ul>
+			<li> Id = 0, F/A-18 Hornet
+			<li> Id = 1, F-5
+			<li> Id = 2, Short Range Missile
+			<li> Id = 3, Missile
+			<li> Id = 4, F-16 Falcon
+			<li> Id = 5, A-4 Skyhawk
+			<li> Id = 6, P-3 
+			<li> Id = 7, F-111
+			<li> Id = 8, Medium Range Missile 
+		</ul>
+		Note that the selection of the models affects performance. For example, the P-3 model contains a large 
+		number of polygons and hence takes longer to draw than some of the other simpler models.
+		A typical model line might look like:
+		<pre>
+			3 0 4 2
+		</pre>
+		This means that there are 3 models to be loaded: 0, 4 and 2. This means the F/A-18, the F-16 and the 
+		Short Range Missile models.
+		<p>
+
+        <B>Number of Aircraft and Number of Sides</B>
+        <BR>
+        This line tells XCombat how many aircraft there are in this simulation (it has to be the same
+        in each time step) and how many sides there are: For example:
+        <pre>
+            6 2
+        </pre>
+        means there are 6 aircraft and 2 sides (side 0 and side 1)
+        <p>
+
+		<B>Waypoints</B>  
+		<BR>
+		The waypoint section follows the header. It consists of a field
+		saying how many waypoints there are and then that number of
+		waypoint lines.	 <BR>
+<PRE>
+num_wp
+side team set type x y
+	...
+</PRE>
+
+		<<table class="table table-striped">
+
+		<TR>
+                <TD><B>Parameter</B></TD>
+                <TD><B>Type</B></TD>
+                <TD><B>Description</B></TD>
+		</TR>
+
+		<TR>
+		<TD>num_wp</TD>
+		<TD>int</TD>
+		<TD>Number of waypoints in this run</TD> 	
+		</TR>
+
+		<TR>
+                <TD>side</TD>         
+                <TD>short int</TD>    
+                <TD>Which side is the waypoint for?</TD>        
+                </TR>
+
+		<TR>
+                <TD>team</TD>         
+                <TD>short int</TD>    
+                <TD>Which team is the waypoint for?</TD>        
+                </TR>
+
+		<TR>
+                <TD>set</TD>         
+                <TD>short int</TD>    
+                <TD>Which set is the waypoint in</TD>        
+                </TR>
+
+		<TR>
+                <TD>type</TD>         
+                <TD>short int</TD>    
+                <TD>Normal, Target or Cap</TD>        
+                </TR>
+
+		<TR>
+                <TD>x</TD>         
+                <TD>float</TD>    
+                <TD>x coord of waypoint</TD>        
+                </TR>
+
+		<TR>
+                <TD>y</TD>         
+                <TD>float</TD>    
+                <TD>y coord of waypoint</TD>        
+                </TR>
+
+		</TABLE>
+		<P>
+
+		<B>XCOMBAT Coordinate System</B>
+		<BR>
+		<p>
+			The figure below shows the coordinate system used by XCombat. 
+			When the program starts up, the X axis points to the left of the screen, the Y axis points up and
+			the Z axis points into the screen.
+			The two figures below show the axis conventions with screenshots from XCombat.
+			<p><center><img src="images/ac_coord.jpg"></center><p>
+			<p><center><img src="images/axes.jpg"></center><p>
+		<P>
+
+		<B>Aircraft Line</B> 
+		<BR>
+		The different parameters on each aircraft line 
+		described below. <P>
+
+		<table class="table table-striped">
+
+		<TR> 
+		<TD><B>Parameter</B></TD> 
+		<TD><B>Type</B></TD> 
+		<TD><B>Description</B></TD> 
+		</TR> 
+
+		<TR> 	
+		<TD>time</TD> 
+		<TD>long int</TD> 
+		<TD>Current run time (in units of 10x seconds, in 0.1 second intervals)</TD> 
+		</TR>
+
+		<TR>
+		<TD>mfly</TD>
+		<TD>short int</TD>
+		<TD>Number of missiles in flight</TD>
+		</TR>
+
+		<TR>
+                <TD>deadflag</TD>
+                <TD>short int</TD>
+                <TD>Aircraft dead(1) or alive(0)</TD>
+                </TR>
+
+		<TR>
+                <TD>ac_ident</TD>
+                <TD>short int</TD>
+                <TD>Aircraft Number/Identification</TD>
+                </TR>
+
+		<TR>
+                <TD>side</TD>
+                <TD>short int</TD>
+                <TD>Friend (1) or foe (2)</TD>
+                </TR>
+
+		<TR>
+                <TD>x</TD>
+                <TD>float</TD>
+                <TD>Aircraft's x coordinate (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>y</TD>
+                <TD>float</TD>
+                <TD>Aircraft's y coordinate (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>z</TD>
+                <TD>float</TD>
+                <TD>Aircraft's z coordinate (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>psi</TD>
+                <TD>short int</TD>
+                <TD>Aircraft rotation about its Z axis (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>theta</TD>
+                <TD>short int</TD>
+                <TD>Aircraft rotation about its Y axis (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>phi</TD>
+                <TD>short int</TD>
+                <TD>Aircraft rotation about its X axis (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>alpha</TD>
+                <TD>short int</TD>
+                <TD>Aircraft Angle of Attack (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>mach</TD>
+                <TD>short int</TD>
+                <TD>Mach Number</TD>
+                </TR>
+
+		<TR>
+                <TD>throt</TD>
+                <TD>short int</TD>
+                <TD>Throttle Position</TD>
+                </TR>
+
+		<TR>
+                <TD>eta</TD>
+                <TD>short int</TD>
+                <TD>G Loading</TD>
+                </TR>
+
+		<TR>
+                <TD>actype</TD>
+                <TD>short int</TD>
+                <TD>Aircraft type</TD>
+                </TR>
+
+		<TR>
+                <TD>nFlares</TD>
+                <TD>short int</TD>
+                <TD>Number of flares currently out</TD>
+                </TR>
+
+		<TR>
+                <TD>Beamel</TD>
+                <TD>long int</TD>
+                <TD>Radar Beam Elevation (100x deg) </TD>
+                </TR>
+
+		<TR>
+                <TD>Beamaz</TD>
+                <TD>long int</TD>
+                <TD>Radar Beam Azimuth (100x deg) </TD>
+                </TR>
+
+		<TR>
+                <TD>hscan</TD>
+                <TD>long int</TD>
+                <TD>Radar Horizontal Scan (100x deg) </TD>
+                </TR>
+
+		<TR>
+                <TD>vscan</TD>
+                <TD>long int</TD>
+                <TD>Radar Vertical Scan (100x deg) </TD>
+                </TR>
+
+		<TR>
+                <TD>Rrange</TD>
+                <TD>long int</TD>
+                <TD>Radar Range (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>inst_bm_az</TD>
+                <TD>long int</TD>
+                <TD>Radar Instantaneous Azimuth (100x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>inst_bm_el</TD>
+                <TD>long int</TD>
+                <TD>Radar Beam Elevation (100x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>beam_height</TD>
+                <TD>long int</TD>
+                <TD>Instantaneous Radar Beam Height (100x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>beam_width</TD>
+                <TD>long int</TD>
+                <TD>Instantaneous Radar Beam Width (100x deg)</TD>
+                </TR>
+
+		<TR>
+		<TD>clutter.x_patch_1</TD>
+		<TD>float</TD>
+		<TD>x coordinate of clutter patch 1</TD>
+		</TR>
+
+		<TR>
+                <TD>clutter.y_patch_1</TD>
+                <TD>float</TD>
+                <TD>y coordinate of clutter patch 1</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.x_patch_2</TD>
+                <TD>float</TD>
+                <TD>x coordinate of clutter patch 2</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.y_patch_2</TD>
+                <TD>float</TD>
+                <TD>y coordinate of clutter patch 2</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.area_1</TD>
+                <TD>float</TD>
+                <TD>Area of clutter patch 1</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.area_2</TD>
+                <TD>float</TD>
+                <TD>area of clutter patch 2</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.lobe_1</TD>
+                <TD>float</TD>
+                <TD>lobe type 1</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.lobe_2</TD>
+                <TD>float</TD>
+                <TD>lobe type 2</TD>
+                </TR>
+
+		<TR>
+                <TD>clutter.patch_prf</TD>
+                <TD>float</TD>
+                <TD>patch prf</TD>
+               	</TR> 
+
+		<TR>
+		<TD>comque</TD>
+		<TD>string</TD>
+		<TD>see below</TD>
+		</TR>
+
+		</TABLE>
+		<P>
+
+		<B>Comque</B> <BR>
+		Comque is a string of 20 characters. Each character is either
+		'0' or '1'. Each position in the string is used to set a number
+		of display parameters in the graphics. Only the first 12
+		positions are used at this stage. If the value is '1' the parameter is ON
+		and if it is '0' it is OFF. The different parameters and their
+		positions in the string are: <BR>
+<PRE>
+BARRAGE_JAMMING        0
+SMART_NOISE_JAMING     1
+DECEPTIVE_JAMING       2
+JAMMED_RANGE_DENIAL    3
+JAMMED_VELOCITY_DENIAL 4
+JAMMED_BEARING_DENIAL  5
+JAMMED_STT_DENIAL      6
+RADAR_DETECTED         7
+RWR_DETECT             8
+LOW_PRF                9
+MEDIUM_PRF            10
+HIGH_PRF              11
+</PRE>
+
+		<B>Missile Line</B><BR>
+		Each missile line is in the following format: <BR>
+<PRE>
+missileId x y z psi theta phi mtype
+</PRE>
+		<P>
+
+		<table class="table table-striped">
+
+		<TR>
+                <TD><B>Parameter</B></TD>
+                <TD><B>Type</B></TD>
+                <TD><B>Description</B></TD>
+         </TR>
+
+		<TR>
+		<TD> missile id </TD>
+		<TD> int </TD>
+		<TD> The unique id of the missile </TD>
+		</TR>
+
+		<TR>
+                <TD>x</TD>
+                <TD>float</TD>
+                <TD>x coord (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>y</TD>
+                <TD>float</TD>
+                <TD>y coord (feet) </TD>
+                </TR>
+
+		<TR>
+                <TD>z</TD>
+                <TD>float </TD>
+                <TD>z coord (feet)</TD>
+                </TR>
+
+		<TR>
+                <TD>psi</TD>
+                <TD>short int</TD>
+                <TD>angle around y (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>theta</TD>
+		<TD>short int</TD>
+                <TD>angle around z (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>phi</TD>
+                <TD>short int</TD>
+                <TD>angle around x (10x deg)</TD>
+                </TR>
+
+		<TR>
+                <TD>mtype</TD>
+                <TD>string</TD>
+                <TD>Missile Type</TD>
+                </TR>
+
+		</TABLE>
+
+		<P>
+
+		<B>Flare Line</B><BR>
+                Each flare line is in the following format: <BR>
+<PRE>
+x y z 
+</PRE>
+                <P>
+
+                <table class="table table-striped">
+
+                <TR>
+                <TD><B>Parameter</B></TD>
+                <TD><B>Type</B></TD>
+                <TD><B>Description</B></TD>
+                </TR>
+
+                <TR>
+                <TD>x</TD>
+                <TD>float</TD>
+                <TD>x coord (feet)</TD>
+                </TR>
+
+                <TR>
+                <TD>y</TD>
+                <TD>float</TD>
+                <TD>y coord (feet) </TD>
+                </TR>
+
+                <TR>
+                <TD>z</TD>
+                <TD>float </TD>
+                <TD>z coord (feet)</TD>
+                </TR>
+
+		</TABLE>
+
+</td> </tr> </table>
+</td> </tr> </table>
+
+</body>
+</html>

@@ -1,0 +1,723 @@
+<html>
+
+<head> 
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<script src="js/jquery-3.2.0.slim.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="starter-template.css" rel="stylesheet">
+
+<title> XCombat User Manual </title>
+</head>
+
+<body bgcolor="#aaddff">
+
+    <nav class="navbar navbar-fixed-top navbar-dark navbar-inverse">
+      <a class="navbar-brand" href="#">ACEXCombat</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+<p> 
+    
+<center>
+	<table border=1 padding=0>
+	<tr>
+	<td> <center> <img src="images/hornets.gif"> </center> </td>
+	</tr>
+	</table>
+    <h1> XCombat User Manual </h1>  
+    <h3> Version 1.0 </h3> 
+</center>
+
+
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#000000"> <tr> <td>
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#FFFFFF"> <tr> <td>
+
+<h1> 1 Introduction </h1> 
+
+This document is a user manual for version 1.0 of the XCombat visualisation system.
+XCombat is an X Windows program for displaying and animating the data output from
+the PACAUS and SWARMM systems. Specifically, XCombat is designed to display
+an air to air combat scenario involving multiple aircraft and missiles.
+
+The system enables the user to view the simulation from a number of different
+views, including outside world views, tracking a particular aircraft
+and from inside the cockpit of an aircraft. 
+
+In addition XCombat also provides
+facilities to display aircraft and missile traces, radar information, 
+electronic warfare data, waypoints, flares, aircraft data 
+such as speed and altitude, a head up display, and the ability to
+step through the simulation forwards and backwards, transform the scene
+in various ways, scale the size of the aircraft, and to save a user's settings
+
+<h2> 1.1 Starting XCombat </h2> 
+The XCombat system can be started on the UNIX command line as follows:
+<pre>
+    xcombat pac.his
+</pre>
+The file pac.his was specified above, but any file that is a valid
+PACAUS or SWARMM graphics history file may be specified.
+
+After the file is loaded, the XCombat window will appear on the screen
+which will enabling the user to start viewing the run.
+
+<h2> 1.2 Command Line Arguments </h2> 
+XCombat has many command line arguments that enable the user to 
+modify how the program operates. 
+
+The command line arguments are 
+divided into XCombat specific arguments and those which apply
+to X Windows (Xt based) programs such as XCombat. Command line
+arguments may be specified as follows:
+<pre>
+    xcombat -arg1 -arg2 pac.his
+</pre>
+
+<h3> 1.2.1 Standard XCombat Command Line Arguments </h3>
+<pre>
+Usage: xcombat [-runtime] [-port portnumber]
+       [-basicmodels] [-time start_time] [-settings settingsfile] [-path pathname]
+       [-view WORLDVIEW|VIEWPOINT|COCKPIT|SPOTTER] filename
+</pre>
+<center>
+<table class="table table-striped">
+<tr> <th> Flag </th> <th> Description </th> </tr> 
+<tr> <td>-runtime</td> <td>Sets up xcombat in runtime mode with PACAUS</td> </tr>
+<tr> <td>-port</td> <td>Specify a socket port eg: xcombat -runtime -port 123</td> </tr>
+<tr> <td>-basicmodels</td> <td>Defaults to basic aircraft models</td> </tr>
+<tr> <td>-time</td> <td>Specify at what time (in seconds) the run should start</td> </tr>
+<tr> <td>-settings</td> <td>Specify a valid settings file to load</td> </tr>
+<tr> <td>-view</td> <td>Specify WORLDVIEW, VIEWPOINT, SPOTTER, or COCKPIT</td> </tr>
+<tr> <td>filename</td> <td>A valid pac.his file - not required in runtime mode</td> </tr>
+</table>
+</center>
+
+<h3> 1.2.2 X Toolkit Command Line Arguments </h3>
+Since XCombat is an OSF/Motif based program it automatically accepts all the
+standard X Toolkit Intrinsics command line options. Some of the most common 
+and useful options are listed in the table below.
+<p>
+<center>
+<table class="table table-striped"> 
+<tr> <th> Flag </th> <th> Description </th> </tr> 
+<tr>
+<td>-geometry</td>
+<td>Specify the size and the position of the window on screen. <br> 
+    Geometry is specified as WIDTHxHEIGHT+X+Y <br> 
+    For example xcombat -geometry 1024x768+100+200 . </td>
+</tr>
+<tr> <td>-bg</td> <td>Sets the background colour. Eg: xcombat -bg red4 </td> </tr>
+<tr> <td>-background</td> <td>Same as -bg</td> </tr>
+<tr> <td>-fg</td> <td>Sets the foreground colour</td> </tr>
+<tr> <td>-foreground</td> <td>Same as -fg </td> </tr>
+<tr> <td>-iconic</td> <td>Starts the program in a minimised form</td> </tr>
+</table>
+</center>
+
+<h2> 1.3 XCombat Setup </h2>
+The environment variable XCOMBAT_PATH must be set to the directory
+of where the XCombat data files are stored. This is required so 
+that XCombat knows where to look to find the aircraft models,
+texture maps and other data required for the program to run. For example if the
+xcombat data directory is located in <b>/usr/local/xcombat</b> the
+command to set the environment variable would be:
+<pre>
+    <b>csh/tcsh:</b>   setenv XCOMBAT_PATH "/usr/local/xcombat"
+    <b>zsh:</b>        XCOMBAT_PATH="/usr/local/xcombat ; export XCOMBAT_PATH 
+</pre>
+
+<h2> 1.4 Running on an X-Terminal </h2>
+XCombat makes use of the OSF/Motif and the Silicon Graphics OpenGL
+libraries. Therefore it is intended to run on any UNIX system which supports
+X11 (X Windows), Motif and OpenGL. 
+<p>
+There are in fact two <i>xcombat</i> executables. One is for use on 
+OpenGL capable displays and is called <i>xcombat_ogl</i> and the other
+is for use on displays which do not have the GLX extensions such as
+most X-Terminals and is called <i>xcombat_mgl</i>, since it is based
+on the Mesa graphics library.
+<p>
+The file <i>xcombat</i> is a shell script which determines if the GLX 
+extension is present on the user's display and calls the appropriate 
+executable. The script passes all the command line arguments supplied to
+the appropriate executable. This whole process should be completely 
+transparent to the user. In effect there is no operational difference
+for the user when running XCombat on a GLX enabled terminal or a 
+standard X-Terminal.
+<p>
+There are however important non-functional differences in running 
+the two different versions of XCombat. 
+The most important difference is speed and performance. The OpenGL
+version makes use of accelerated graphics hardware which results in
+fast animation and a quick response time to user input. The X-Terminal
+version draws the 3D graphics entirely in software and as a results is
+considerably slower. 
+<p>
+In order to improve performance on the software based version, a number of
+visual features have been disabled. None of the functionality has been 
+removed. All that has been done is to modify how some of the graphics have
+been drawn in order to improve the performance of the program. The changes
+include:
+<ul>
+<li> Disabling lighting - all polygons are flat shaded.
+<li> Disabling fog.
+<li> Enabling dithering.
+<li> Defaults to simple triangular shaped models for aircraft.
+<li> Reduced colours in gui components.
+</ul>
+<p>
+There are a number of things that the user can do to improve performance.
+These include:
+<ul>
+<li> Resizing the window to a smaller size.
+<li> Displaying only the options actually required. Turning on the radar, traces,
+     and jamming for all aircraft slows the program down.
+<li> Not using texture mapping.
+<li> Using keyboard commands especially to transform the scene - it's faster.
+</ul>
+<p>
+OpenGL based programs tend to make use of many colours. If the display being
+used is only capable of 8-bit graphics (256 colours), it is possible to 
+reduce colourmap problems by setting the environment variable MESA_RGB_VISUAL
+to an appropriate visual. For example in <i>csh</i>:
+<pre>
+    setenv MESA_RGB_VISUAL "PseudoColor 8"
+</pre>
+The <i>xcombat</i> script will set this variable automatically if it has
+not already being set by the user.
+
+<h2> 1.5 Screen Layout </h2>
+<table>
+<tr>
+<td>
+The XCombat Window has two main components. Most of the window is taken up
+a three dimensional OpenGL drawing area. This is the part of the window,
+where the simulation is viewed and animated. Across the top length of the window,
+is the menubar. The menubar contains eight menus containing various operations
+which enable the user to modify how XCombat displays information in the drawing
+area. The user may use various mouse and keyboard commands (described later) 
+while the mouse cursor is inside the drawing area, to control how information
+is displayed. The XCombat window may also be moved around the screen and resized to 
+whatever size the user requires.
+</td>
+    <td><img src="images/xcombat.gif" align=left></td>
+</tr>
+</table>
+
+<h2> 1.6 Air Combat Space </h2>
+The XCombat drawing area is where all the action takes place. It allows
+the user to view the simulation in three dimensions from a number of
+different views. In addition independent rotation, translation and scaling 
+of each view is possible. Four views of the simulation are available.
+
+<h2> 1.7 Views </h2>
+
+XCombat provides four different ways in which a run may be viewed. These constitute
+different views called Worldview, Viewpoint, Spotter, and Cockpit. Example of these
+views are shown below.
+<p>
+<center>
+<table class="table"> 
+<tr>
+<td> <img src="images/worldview.gif"> <br> <b> WORLDVIEW </b> </td>
+<td> <img src="images/viewpoint.gif"> <br> <b> VIEWPOINT </b> </td>
+<tr>
+
+<tr>
+<td> <img src="images/cockpit.gif"> <br> <b> COCKPIT </b> </td>
+<td> <img src="images/spotter.gif"> <br> <b> SPOTTER </b> </td>
+</tr>
+</table>
+</center>
+<p>
+
+<h3> 1.7.1 Worldview </h3>
+The Worldview starts with a top plan view of the scenario, with the
+user looking down the z axis. It is a general purpose view enabling the
+user to look at the whole run from any position and angle. As it's
+name suggests it is a view of the <i>whole world</i>. In the case of XCombat,
+the <i>whole world</i> is the three dimensional area in which the simulation
+occurs.
+
+<h3> 1.7.2 Viewpoint </h3>
+The Viewpoint is identical to the Worldview. It is provided so the user may have
+two views of the simulation from two different angles. For example a user
+may chose to have a top view in Worldview and a side on view in Viewpoint.
+
+<h3> 1.7.3 Spotter </h3>
+The Spotter view is a view from behind the currently selected aircraft.
+This view follows the currently selected aircraft. The user may rotate
+translate and scale this view. For example, by scaling out it is possible
+to follow a particular aircraft and still be able to see the positions of
+the other aircraft.
+
+<h3> 1.7.4 Cockpit </h3>
+The Cockpit view is a view from inside the cockpit of the currently
+selected aircraft. It is also possible to perform transformations from
+this view. For example by rotating 180 degrees around the z-axis, the view
+is from inside the cockpit but looking back.
+
+<h2> 1.8 Aircraft </h2>
+The aircraft in the simulation are represented by three dimensional 
+models which are representative of the actual shape of the real aircraft.
+Aircraft models exist for the F/A-18 Hornet, F-16 Falcon, F-5, A-4 Skyhawk,
+P-3 Orion, and the F-111. 
+
+Each aircraft in the simulation is in a different colour to enable the user
+to distinguish them. For example the first aircraft is green the second one is
+yellow, the third one is red and so on.
+
+<h2> 1.9 Missiles </h2>
+When an aircraft launches a missile, a three dimensional model of a missile
+is displayed. Missiles are coloured white except for the wings which are the 
+colour of the aircraft that launched that particular missile. When a missile
+is launched from the current aircraft the missile type is shown for the 
+duration of the missile's flight in the information box at the bottom part 
+of the screen.
+
+<h2> 1.10 Flares </h2>
+Flares are displayed at the coordinates specified in the run file when an
+aircraft launches them. The symbol <b>*FLARE*</b> is displayed in the information
+box if a flare is launched. The flares are coloured white.
+
+<h2> 1.11 Radar </h2>
+XCombat has the ability to display radar information for each aircraft. 
+Both a radar scan volume and an instantaneous radar beam can be displayed 
+for each aircraft. The scan volume and instantaneous beam can be turned
+off independently for each aircraft. The radar is displayed in the colour of
+the aircraft. The image below shows the scan volume and instantaneous beam
+displayed for a single aircraft.
+<p>
+<center>
+<img src="images/radar.gif">
+</center>
+
+<h2> 1.13 Electronic Warfare </h2>
+XCombat can display various types of electronic warfare and radar information.
+For example, an aircraft flashes white if it has been detected by enemy radar. 
+The image below shows and aircraft displaying a number of different jamming symbols
+around it.
+<p>
+<center><img src="images/ew.gif"></center>
+<p>
+If the aircraft is electronically jammed different symbols will appear around the aircraft. 
+The following jamming types and symbology are displayed:
+<ul>
+<li> Barrage Jamming (Yellow Lightning Bolt from Aircraft Nose) 
+<li> Smart Noise Jamming (Magenta Lightning Bolt from Aircraft Nose) 
+<li> Deceptive Jamming (Red Lightning Bolt from Aircraft Nose) 
+<li> Jammed Range Denial (Red Circle around aircraft and letter 'R') 
+<li> Jammed Velocity Denial (Red Circle and letter 'V') 
+<li> Jammed Bearing Denial (Red Circle and letter 'B') 
+<li> Jammed STT Denial (Red Circle and letter 'S') 
+<li> Radar Detected (Aircraft Flashes White)
+<li> Aircraft Spiked (Aircraft Flashes Pink)
+<li> Low Prf Mode (Letter 'L' in aircraft colour)
+<li> Medium Prf Mode (Letter 'M' in aircraft colour)
+<li> High Prf Mode (Letter 'H' in aircraft colour)
+</ul>
+
+<h2> 1.14 Waypoints </h2>
+Waypoints that are specified in a run file can be displayed by XCombat. 
+Waypoints for side 1 are in blue and waypoints for side 2 are displayed in red.
+They are displayed at the coordinates specified in the run file.
+There are three different types of waypoints. Therefore three different types
+of symbols are used to display them.
+<ul>
+<li> Normal - Unfilled Circle
+<li> Target - Unfilled Triangle
+<li> Cap - Unfilled Square
+</ul>
+
+<h2> 1.15 Battle Box </h2>
+The battle box is a rectangular wireframe box in which all the aircraft and missiles
+fly inside. On the "floor" of the battle box is a grid to enable the user to track the
+motion of the aircraft. 
+<p>
+The battle box also provides ground markers in the shape of arrows
+directly below each aircraft on the ground clearly indicating the aircraft's (x,y)
+position and it's direction. Height markers are also provided showing the height of each
+aircraft on the battle box sides. Both the ground and height markers are in the 
+colour of the aircraft which they correspond to.
+
+<h2> 1.16 Information Screen </h2>
+Along the bottom of the drawing area various information is displayed.
+This includes information about the run in progress such as the total run time,
+the current elapsed time and the size of the battle area. Information about the
+current aircraft is also displayed such as altitude, velocity, throttle strength,
+and the number of flares and missiles currently in the air.
+
+<h2> 1.17 Object Traces </h2>
+Aircraft and missile traces may be enabled to help the user track the motion 
+of the aircraft. See section 2.2.1 for more information.
+
+<h2> 1.18 Animation </h2>
+One of the most useful features of XCombat is the ability to animate a run.
+The animation may be started or stopped at any stage. All the functionality of
+the program is still available while animating. Therefore the user for example
+can turn on radar, texture mapping, object traces, waypoints or any other
+feature while the animation is running.
+<p> 
+The speed of the animation is as fast as the CPUs and the graphics pipeline
+can handle. Therefore with a low CPU load and a run with only a few aircraft, 
+animation speeds between two and three times faster than real time are achievable.
+These speeds correspond to 20-30 frames per second. Real time synchronisation
+has not being implemented at this stage in this version of XCombat.
+
+</td> </tr> </table>
+</td> </tr> </table>
+
+
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#000000"> <tr> <td>
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#FFFFFF"> <tr> <td>
+
+<h1> 2 Menu Operations </h1>
+
+<h2> 2.1 File Menu </h2>
+
+<h3> 2.1.1 Open </h3>
+The Open menu item display a dialog box allowing the user to load a new run
+file into XCombat. If the user chooses a new file from the dialog box, the current
+file is discarded and the new one is loaded and most of the settings in the program 
+are reset.
+
+<h3> 2.1.2 Load Settings </h3>
+The Load Settings menu item displays a dialog box to allow a user to load
+a file containing saved settings for the program. Once the file is loaded
+the new settings will take effect.
+
+<h3> 2.1.3 Save Settings </h3>
+The Save Settings menu item saves the current user's settings to a file
+specified by the user in the dialog box. In this version of XCombat
+the rotation, translation and scaling parameters for each view are the
+only options saved.
+
+<h3> 2.1.4 Exit Menu </h3>
+The Exit menu item brings up a dialog box asking the user if they wish
+to exit the program.
+
+<h3> 2.2 Options Menu </h3>
+
+<h3> 2.2.1 Object Trace </h3>
+The Object Trace menu item displays a dialog box enabling the user to 
+independently turn on traces for both the aircraft and the missiles. 
+
+The missiles have a single trace coming out of the exhaust and it is the 
+same colour as the aircraft that launched it
+Each aircraft has two traces; one from each wingtip. The traces for both
+the aircraft and the missiles can be solid or dashed lines.
+
+The length and the frequency of the traces may also be set.
+
+<h3> 2.2.2 Radar </h3>
+The Radar menu item displays a dialog box enabling the user to display
+the scan volume and/or instantaneous beam for each aircraft's radar.
+The radar is of the same colour as the current aircraft and may be toggled
+using the buttons in the dialog box.
+
+<h3> 2.2.3 Display </h3>
+The display menu brings up a dialog box enabling the user to display
+a number of different options simply by clicking on the toggle buttons.
+The user may display waypoints, electronic warfare information such
+as radar detection and jamming and a head up display. The complete list
+of options which the user can toggle are:
+<ul>
+<li> Waypoints
+    <ul>
+    <li> Side 1
+    <li> Side 2
+    </ul>
+<li> Electronic Warfare
+    <ul>
+    <li> Jamming
+    <li> Radar Detection
+    <li> PRF Mode
+    </ul>
+<li> Body Axis Roll
+<li> Head Up Display
+<li> Information Box
+<li> Fog and Atmospheric Effects
+</ul>
+
+<h2> 2.3 Run Menu </h2>
+
+<h3> 2.3.1 Go/Pause </h3>
+The Go/Pause menu item allows the starting and stopping of the animation.
+
+<h3> 2.3.2 Time Step </h3>
+The Time Step Menu item displays a dialog box allowing the
+user to to step through the simulation in step of 
+0.1, 1.0, 5.0 or 10.0 seconds either forwards or backwards. The user
+may also click on the Start or the End button to go to the start or
+the end of the run respectively. The current elapsed time is also displayed
+in the dialog box. An image of the dialog box is shown below.
+<p>
+<center>
+<img src="images/timestep.gif">
+</center>
+
+<h2> 2.4 Transformations Menu </h2>
+
+<h3> 2.4.1 Rotate </h3>
+The Rotate menu item displays a dialog box containing three sliders 
+corresponding to the X, Y, and Z axes. Each slider allows the view to 
+be rotated around the corresponding axis from 0 to 360 degrees. The current
+angle is indicated on each slider. The rotation angles are independent for
+each view. This means that changing the view while this dialog box is being 
+displayed will changed the values of the sliders corresponding to the angles
+of the new view. While the user drags the slider, the scene is automatically
+updated.
+
+<h3> 2.4.2 Translate </h3>
+The Translate menu item displays a dialog box with three sliders, 
+corresponding to the X, Y, and Z directions. Each slider will translate
+the scene in the corresponding direction.
+
+<h3> 2.4.3 Scale </h3>
+The Scale menu item displays a dialog box containing a single slider,
+which controls the scaling in the current view. Moving the slider allows
+the user to zoom (scale) in or out of the current view. The scale mechanism
+used depends on the current view. For example, in Worldview the slider
+scales into the centre of the battle box, whereas in spotter view the centre
+is the centre of the current aircraft model.
+
+<h3> 2.5 Aircraft Menu </h3>
+
+<h3> 2.5.1 Select </h3>
+The Select menu item brings up a sub-menu displaying a list of all the aircraft
+in the current run. Selecting an aircraft from the list will make that aircraft
+the current aircraft and will change the view to Spotter if it is not already
+in that viewing mode. If however the current view is Cockpit, XCombat will remain
+in this view and simply change to the new aircraft selected.
+
+<h3> 2.5.2 Scale </h3>
+The Scale menu item brings up a sub-menu displaying a list of aircraft scale factors.
+This allows the user to change the scale of the aircraft models. The default is set
+to 10.0 times larger than actual size, which makes the aircraft easier to see.
+Selecting a scale factor of 1.0 will rescale the aircraft to their relative actual sizes.
+
+<h3> 2.5.3 Information </h3>
+The Information menu item displays a dialog box displaying various information about 
+the current aircraft such as speed, altitude, g-load, side and aircraft type.
+This information is dynamically updated as the as the simulation is running.
+
+<h2> 2.6 Graphics </h2>
+
+<h3> 2.6.1 Aircraft Model </h3>
+The Aircraft Model menu item brings up a sub-menu allowing the user to choose
+between a simple or detailed aircraft model. The detailed model is representative
+of the true shape of the aircraft whereas the simple model is just a triangle.
+The simple model is used when a speed increase is required and the the overhead
+is too computationally expensive for the detailed model. This is the case 
+when running the non-GLX version of XCombat on a terminal which does not
+have dedicated OpenGL graphics acceleration hardware.
+The detailed model is the default for the OpenGL XCombat and the simple model 
+is the default for MesaGL XCombat.
+
+<h3> 2.6.2 World Model </h3>
+The World Model menu item brings up a sub-menu allowing the user to choose
+between displaying a battle box or a realistic texture mapped sky and ground.
+
+<h2> 2.7 Help Menu </h2>
+
+<h3> 2.7.1 Online Help </h3>
+The Online Help menu item calls up the netscape program displaying 
+a help file for XCombat.
+
+<h3> 2.7.2 About </h3>
+The About menu item displays a dialog providing some information about the
+XCombat system.
+
+</td> </tr> </table>
+</td> </tr> </table>
+
+
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#000000"> <tr> <td>
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#FFFFFF"> <tr> <td>
+
+<h1> 3 Mouse Operations </h1>
+The mouse is an important user interface component of the XCombat system.
+As well as allowing the user to move and resize the main window, select 
+menu items and interact with dialog boxes, operations specific to XCombat
+are provided when the mouse is used within the three dimensional drawing
+area depending on which mouse button is used.
+
+<h2> 3.1 Left Button </h2>
+Clicking on the left mouse button inside the drawing area will start the animation. 
+Clicking again will stop the animation. The left mouse button therefore acts as a toggle
+enabling the user to start and stop the animation quickly and easily.
+
+<h2> 3.2 Middle Button </h2>
+Instead of using the keyboard or the rotate dialog box to rotate the current
+scene, the middle mouse button may be used. To rotate the scene, click on the middle
+mouse button within the drawing area and keep it held down. Move the mouse horizontally
+or vertically. As the mouse moves while the middle button is being held the view
+will rotate. Releasing the middle mouse button will stop the rotation.
+
+<h2> 3.3 Right Button </h2>
+The right mouse button is used for selecting aircraft. An aircraft may be made
+current by placing the cursor on the aircraft and clicking on the right mouse 
+button. If the current view is from the cockpit, selecting a new aircraft using
+the mouse will change views to the cockpit of the new aircraft. In all other views,
+selecting an aircraft will change to a spotter view of the new aircraft.
+It is often difficult to pick an aircraft while it is moving using this method.
+It is easier to stop the animation using the left mouse button and then use the
+right mouse button to pick an aircraft.
+
+<h1> 3.4 Keyboard Operations </h1>
+XCombat has keyboard shortcuts to many commonly used operations. This allows
+the user to quickly make a change to the state of the program without having
+to use the mouse to look through menus and dialog boxes. The table below shows
+the keyboard commands available in XCombat.
+ 
+In order for the keyboard command to take effect, the mouse cursor must be 
+inside the three dimensional drawing area of XCombat and not on a menu
+or dialog box. 
+
+
+<center>
+
+<table class="table table-striped"
+
+<tr>
+    <th>Key</th>    <th>Command</th> 
+</tr>
+
+<tr>
+    <td>ESC</td>    <td>Quick Exit from XCombat</td> 
+</tr>
+
+<tr>
+<td>Space</td>      <td>Goes forwards 0.1 seconds</td>
+</tr>
+
+<tr>
+<td>Backspace</td>  <td>  Goes backwards 0.1 seconds </td> 
+</tr>
+
+<tr>
+<td>]</td>  <td>            Zoom in           </td> 
+</tr>
+
+<tr>
+<td>[</td>    <td>        Zoom out  </td> 
+</tr>
+
+<tr>
+<td>A, a</td><td>         Toggle display of axes    </td>                           
+</tr>
+
+<tr>
+<td>C, c</td><td>         Go to cockpit view  </td> 
+</tr>
+
+<tr>
+<td>G, g </td><td>          Toggle animation </td> 
+</tr>
+
+<tr>
+<td>M, m </td><td>         Toggle menu bar display             </td>                  
+</tr>
+
+<tr>
+<td>S, s </td><td>         Go to Spotter view </td> 
+</tr>
+
+<tr>
+<td>T, t </td><td>         Toggle texture mapping  </td> 
+</tr>
+
+<tr>
+<td>V, v </td><td>         Go Viewpoint view   </td> 
+</tr>
+
+<tr>
+<td>W, w </td><td>         Go to Worldview    </td> 
+</tr>
+
+<tr>
+<td>x </td><td>            Rotate 10 degrees forwards around the x-axis       </td> 
+</tr>
+
+<tr>
+<td>X </td><td>            Rotate 10 degrees backwards around the x-axis       </td>
+</tr>
+
+<tr>
+<td>y </td><td>            Rotate 10 degrees forwards around the y-axis        </td>
+</tr>
+
+<tr>
+<td>Y  </td><td>           Rotate 10 degrees backwards around the y-axis       </td>
+</tr>
+
+<tr>
+<td>z           </td><td>  Rotate 10 degrees forwards around the z-axis       </td> 
+</tr>
+
+<tr>
+<td>Z  </td><td>           Rotate 10 degrees backwards around the z-axis       </td>
+</tr>
+</table>
+
+</center>
+
+<p>
+
+</td> </tr> </table>
+</td> </tr> </table>
+
+
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#000000"> <tr> <td>
+<table cellspacing="2" cellpadding="3" width="100%" border="0" bgcolor="#FFFFFF"> <tr> <td>
+
+<h1> 4 Reporting Bugs and Change Requests </h1>
+
+If you believe you have found a bug in the XCombat system, it is important
+to record any information which may help in removing the bug. A copy 
+of the pac.his file should also be kept. A bug report should
+be sent by email to <i>michael.papasimeon@dsto.defence.gov.au</i>. A bug report should contain the 
+following information:
+
+<ul>
+    <li> Name
+	<li> Email
+    <li> Date.
+    <li> Description of the bug.
+    <li> Location of pac.his file causing the bug.
+    <li> What options were enabled/disabled (e.g. traces, texture mapping etc.).
+    <li> Time in the run which bug occurs
+</ul>
+
+If you would like request an addition or a change for the next version 
+of XCombat simply make a list of changes and email it to one of the addresses
+above. The list of requests should be ordered with the changes with the highest
+priority at the top of the list.
+
+</td> </tr> </table>
+</td> </tr> </table>
+
+
+<p>
+<hr>
+
+</body>
+
+</html>
+
+

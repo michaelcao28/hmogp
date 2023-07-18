@@ -1,0 +1,69 @@
+XCOMBAT FOR WINDOWS - KEY COMMANDS (AS OF SEPTEMBER 02, 2003)
+-------------------------------------------------------------
+
+GENERAL
+-------
+ESC             Exit XCombat        
+
+DISPLAY
+-------
+A, a            Toggles Axis
+R               Toggles Search Radar for Current Aircraft
+r               Toggles Instantaneous Radar for Current Aircraft
+J, j            Toggle Jamming displays
+D, d            Toggle RWR detection display
+T, t            Toggles ground and sky texture
+O, o            Enables missile and object/aircraft traces
+H, h            Toggles HUD when in cockpit mode
+B, b            Toggles backshading on GUI
+
+VIEWS
+-----
+M, m            Toggles Basic Models
+S, s            Selects Spotter View
+C, c            Selects Cockpit View
+W, w            Selects Worldview
+V, v            Selects Viewpoint
+I, i            Selects Missile View
+N, n            Select next missile to view (if available for current a/c)
+
+
+
+ROTATIONS
+---------
+X/x             Rotate around x-axis +ve and -ve in 10 deg. increments
+Y/y             Rotate around y-axis +ve and -ve in 10 deg. increments
+Z/z             Rotate around z-axis +ve and -ve in 10 deg. increments
+
+
+ZOOM
+----
+[               Zoom in
+]               Zoom out
+
+
+SELECTING AIRCAFT
+-----------------
+PGDOWN          Next aircraft
+PGUP            Previous aircraft
+
+TIME STEPPING
+-------------
+G, g            Go/No. Toggles moving/animation
+LEFT ARROW      Time decrement by 0.1 seconds
+RIGHT ARROW     Time increment by 0.1 seconds
+UP ARROW        Time increment by 10 seconds
+DOWN ARROW      Time decrement by 10 seconds
+
+FUNCTION KEYS
+-------------
+F1              Toggle Radar Display
+F2              Toggle Info Box
+F3              Toggle Real Time Sync (this doesn't work properly yet)
+F4              Toggle Waypoints 1
+F5              Toggle Waypoints 2
+F6              Toggle Bodyroll
+F7		Toggle Fullscreen
+
+
+

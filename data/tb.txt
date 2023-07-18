@@ -1,0 +1,130 @@
+Traceback (most recent call last):
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/trace_messenger.py", line 174, in __call__
+    ret = self.fn(*args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/messenger.py", line 12, in _context_wrap
+    return fn(*args, **kwargs)
+  File "/tmp/ipykernel_14481/3994147290.py", line 68, in guide
+    function_dist = self.pyro_guide(x)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/approximate_gp.py", line 62, in pyro_guide
+    return super().pyro_guide(input, beta=beta, name_prefix=name_prefix)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/pyro/_pyro_mixin.py", line 16, in pyro_guide
+    function_dist = self(input, prior=False)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/approximate_gp.py", line 108, in __call__
+    return self.variational_strategy(inputs, prior=prior, **kwargs)
+  File "/tmp/ipykernel_14481/3710571220.py", line 176, in __call__
+    self.latent_dist = self.base_variational_strategy(x, prior=prior, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 246, in __call__
+    return super().__call__(x, prior=prior, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/_variational_strategy.py", line 309, in __call__
+    return super().__call__(
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/module.py", line 30, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 180, in forward
+    L = self._cholesky_factor(induc_induc_covar)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 76, in g
+    return _add_to_cache_ignore_args(self, cache_name, method(self, *args, **kwargs))
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 88, in _cholesky_factor
+    L = psd_safe_cholesky(to_dense(induc_induc_covar).type(_linalg_dtype_cholesky.value()))
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/_linear_operator.py", line 2812, in to_dense
+    return obj.to_dense()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/sum_linear_operator.py", line 68, in to_dense
+    return (sum(linear_op.to_dense() for linear_op in self.linear_ops)).contiguous()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/sum_linear_operator.py", line 68, in <genexpr>
+    return (sum(linear_op.to_dense() for linear_op in self.linear_ops)).contiguous()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 410, in to_dense
+    return self.evaluate_kernel().to_dense()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 25, in wrapped
+    output = method(self, *args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 355, in evaluate_kernel
+    res = self.kernel(
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/kernels/kernel.py", line 524, in __call__
+    super(Kernel, self).__call__(x1_, x2_, last_dim_is_batch=last_dim_is_batch, **params)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/module.py", line 30, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/tmp/ipykernel_14481/2534210919.py", line 27, in forward
+    covar_x = torch.vstack([covar_x, k.forward(x1, x2, **params)])
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/_linear_operator.py", line 2775, in __torch_function__
+    raise NotImplementedError(f"torch.{name}({arg_classes}, {kwarg_classes}) is not implemented.")
+NotImplementedError: torch.vstack(list, ) is not implemented.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/ipykernel_14481/2717177461.py", line 29, in <cell line: 3>
+    loss = svi.step(train_x, train_y)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/infer/svi.py", line 145, in step
+    loss = self.loss_and_grads(self.model, self.guide, *args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/infer/trace_elbo.py", line 140, in loss_and_grads
+    for model_trace, guide_trace in self._get_traces(model, guide, args, kwargs):
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/infer/elbo.py", line 178, in _get_traces
+    self._guess_max_plate_nesting(model, guide, args, kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/infer/elbo.py", line 97, in _guess_max_plate_nesting
+    guide_trace = poutine.trace(guide).get_trace(*args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/trace_messenger.py", line 198, in get_trace
+    self(*args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/trace_messenger.py", line 180, in __call__
+    raise exc from e
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/trace_messenger.py", line 174, in __call__
+    ret = self.fn(*args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/pyro/poutine/messenger.py", line 12, in _context_wrap
+    return fn(*args, **kwargs)
+  File "/tmp/ipykernel_14481/3994147290.py", line 68, in guide
+    function_dist = self.pyro_guide(x)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/approximate_gp.py", line 62, in pyro_guide
+    return super().pyro_guide(input, beta=beta, name_prefix=name_prefix)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/pyro/_pyro_mixin.py", line 16, in pyro_guide
+    function_dist = self(input, prior=False)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/models/approximate_gp.py", line 108, in __call__
+    return self.variational_strategy(inputs, prior=prior, **kwargs)
+  File "/tmp/ipykernel_14481/3710571220.py", line 176, in __call__
+    self.latent_dist = self.base_variational_strategy(x, prior=prior, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 246, in __call__
+    return super().__call__(x, prior=prior, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/_variational_strategy.py", line 309, in __call__
+    return super().__call__(
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/module.py", line 30, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 180, in forward
+    L = self._cholesky_factor(induc_induc_covar)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 76, in g
+    return _add_to_cache_ignore_args(self, cache_name, method(self, *args, **kwargs))
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/variational/variational_strategy.py", line 88, in _cholesky_factor
+    L = psd_safe_cholesky(to_dense(induc_induc_covar).type(_linalg_dtype_cholesky.value()))
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/_linear_operator.py", line 2812, in to_dense
+    return obj.to_dense()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/sum_linear_operator.py", line 68, in to_dense
+    return (sum(linear_op.to_dense() for linear_op in self.linear_ops)).contiguous()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/sum_linear_operator.py", line 68, in <genexpr>
+    return (sum(linear_op.to_dense() for linear_op in self.linear_ops)).contiguous()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 410, in to_dense
+    return self.evaluate_kernel().to_dense()
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/utils/memoize.py", line 59, in g
+    return _add_to_cache(self, cache_name, method(self, *args, **kwargs), *args, kwargs_pkl=kwargs_pkl)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 25, in wrapped
+    output = method(self, *args, **kwargs)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/lazy/lazy_evaluated_kernel_tensor.py", line 355, in evaluate_kernel
+    res = self.kernel(
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/kernels/kernel.py", line 524, in __call__
+    super(Kernel, self).__call__(x1_, x2_, last_dim_is_batch=last_dim_is_batch, **params)
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/gpytorch/module.py", line 30, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/tmp/ipykernel_14481/2534210919.py", line 27, in forward
+    covar_x = torch.vstack([covar_x, k.forward(x1, x2, **params)])
+  File "/home/cao/miniconda3/envs/pytorch/lib/python3.9/site-packages/linear_operator/operators/_linear_operator.py", line 2775, in __torch_function__
+    raise NotImplementedError(f"torch.{name}({arg_classes}, {kwarg_classes}) is not implemented.")
+NotImplementedError: torch.vstack(list, ) is not implemented.
+Trace Shapes:        
+ Param Sites:        
+Sample Sites:        
+      .u dist | 2 200
+        value | 2 200
