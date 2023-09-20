@@ -174,7 +174,7 @@ class LMCSeparableKernel(gpytorch.kernels.Kernel):
         
         super(LMCSeparableKernel, self).__init__(**kwargs)
         self.kernel_modules = torch.nn.ModuleList(kernel_list)
-        self.active_dims_ = torch.asarray(active_dims, dtype=torch.long)
+        self.active_dims_ = active_dims
     
     def forward(self, x1, x2, **params):
         
